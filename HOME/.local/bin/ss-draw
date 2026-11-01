@@ -1,0 +1,17 @@
+#!/bin/bash
+
+# Directory to save the screenshot
+custom_folder=~/ss
+
+# Get the current date and time to name the screenshot (no "screenshot" in the name)
+current_datetime=$(date "+%I_%M_%S_%p_%m-%d-%y")
+
+# Capture the screenshot and save it with the current date and time
+scrot --select --line mode=edge "$custom_folder/$current_datetime.png"
+
+# Copy the screenshot to the clipboard using xclip
+xclip -selection clipboard -t image/png -i "$custom_folder/$current_datetime.png"
+
+# Notify the user that the screenshot was captured
+notify-send "Screenshot Captured" "Saved as $current_datetime.png"
+

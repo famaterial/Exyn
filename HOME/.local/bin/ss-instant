@@ -1,0 +1,17 @@
+#!/bin/bash
+
+# Set the custom folder for saving screenshots
+custom_folder=~/ss
+
+# Take a full-screen screenshot using scrot
+current_datetime=$(date "+%I_%M_%S_%p_%m-%d-%y")
+file_name="$custom_folder/$current_datetime.png"
+
+scrot "$file_name"
+
+# Remove the "screenshot_" prefix from the filename
+new_file_name="$custom_folder/${current_datetime/screenshot_/}.png"
+mv "$file_name" "$new_file_name"
+
+# Send a notification
+notify-send "Screenshot Captured" "Saved as $new_file_name"

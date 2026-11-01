@@ -1,0 +1,187 @@
+#######################
+# System Applications #
+#######################
+
+# Open floating terminal window (1500x820) at position (1810,310) and launch st terminal
+
+# Launch st terminal
+alt + shift + Return
+    this is changed
+
+alt + BackSpace
+	bspc rule -a "firefox" -o state=floating rectangle=1300x950+2640+260 && \
+	firefox -new-window "https://www.myhopefm.net/player/" & \
+	bspc rule -a "*" -o state=floating rectangle=1300x950+1180+260 && \
+	st -e bash -c '~/.local/bin/you-are-better-than-this; read'
+
+# Run custom pipe script
+# Open floating terminal window (1050x700) at position (800,300) running qnote terminal
+alt + backslash
+    bspc rule -a "*" -o state=floating rectangle=800x700+800+300 && st -t qnote -e qnote
+ 
+# Toggle Polybar on / off
+ctrl + space
+	polybar-msg cmd toggle
+
+# Switch to the next desktop
+alt + bracketright
+    bspc desktop -f next
+
+# Switch to the previous desktop
+alt + bracketleft
+    bspc desktop -f prev
+
+# Open floating terminal window (2000x900) at position (1560,300) running sys-search.sh
+super + space
+    super space changed here 1234 
+alt + Caps_Lock
+    firefox -new-window "https://grok.com"; sleep 2; xdotool key Caps_Lock; xdotool key ctrl+shift+j
+
+# Launch Rofi menu
+
+# Eyedropper tool: copy color to clipboard and notify
+
+# Change terminal background color and copy it to clipboard
+
+# Launch Firefox browser
+
+# Restart notification daemon dunst and send test notification
+
+
+###########
+# Scripts #
+###########
+
+# Set new random wallpaper and colorscheme
+
+# Delete current wallpaper
+
+# Select wallpaper (custom script)
+
+# Save current wallpaper temporarily
+
+# Lock screen using betterlockscreen
+
+# Launch Picom config in floating terminal with vim
+
+# Open sxhkd config in floating terminal with vim
+
+# Open polybar config in floating terminal with vim
+
+# Open st terminal config in floating terminal with vim
+
+# Reload nginx service
+
+# Reload sxhkd configuration and notify
+
+# Open dunst notification config in floating terminal with vim
+
+# Set random keyboard color using Pywal
+
+# Phone extensions shortcut script
+
+# Open Middle School Map PDF in floating zathura window (1765x1150 at 1700,165)
+
+# Open insurance PDF with zathura
+
+# Launch screenshot drawing tool
+
+# Launch instant screenshot tool
+
+
+# Open teacher schedule PDF
+
+
+# swap window to the right
+
+##########################
+# Website Shortcuts (firefox new-window)
+##########################
+
+
+
+
+
+
+
+
+
+
+
+
+####################
+# bspwm Window Manager Hotkeys
+####################
+
+# Close the focused window
+
+# Alternate between tiled and monocle layout for current desktop
+
+# Send newest marked window to newest preselected window
+
+# Swap current node with the biggest window
+
+# Toggle floating state on focused window
+
+# Set the window state (pseudo_tiled, floating, fullscreen)
+
+# Set node flags (marked, locked, sticky, private)
+
+# Expand floating window left by 50px
+
+# Switch to desktop 1-10
+
+# Send focused window to desktop 1-10
+
+# cycle through windows (k/' and ,/.)
+
+# Preselect node direction (west, south, north, east)
+
+# Preselect node size ratio 0.1 to 0.9
+
+# Cancel preselection for focused node
+
+# Cancel preselection for all nodes on focused desktop
+
+# Resize left (smart)
+
+# Resize right (smart)
+
+# Resize up (smart)
+
+# Resize down (smart)
+
+# Shrink left (smart inward)
+
+# Shrink right (smart inward)
+
+# Shrink up (smart inward)
+
+# Shrink down (smart inward)
+
+# Move floating window (left, down, up, right)
+
+
+##################
+# Logitech Mouse Buttons
+##################
+
+# Focus next desktop on button9 (mouse side button)
+
+# Focus previous desktop on button8 (mouse side button)
+
+# Toggle fullscreen on focused window with mouse middle button
+
+##################
+# Audio Controls (using pamixer)
+##################
+
+# Increase volume by 5%
+
+# Decrease volume by 5%
+
+# Toggle mute/unmute
+
+
+
+

@@ -1,0 +1,84 @@
+#!/bin/bash
+
+notify_id=9999
+
+# Temporary directory to store the downloaded wallpaper
+TEMP_DIR="/tmp/random_wallpaper"
+mkdir -p "$TEMP_DIR"
+
+# Define range
+MIN=50
+MAX=4051
+RANGE=$((MAX - MIN + 1))
+
+# Generate a biased random number favoring higher values
+# Explanation:
+#   RANDOM / 32767 → 0–1 uniform
+#   raising to a power less than 1 biases toward 1 (higher numbers)
+#   e.g. 0.5 = moderate bias, 0.3 = strong bias
+bias_power=0.4
+rand=$(awk -v pow="$bias_power" 'BEGIN {srand(); print (rand() ** pow)}')
+RANDOM_NUMBER=$(awk -v min="$MIN" -v range="$RANGE" -v r="$rand" 'BEGIN {print int(min + r * range)}')
+
+# Construct the direct image URL
+IMAGE_URL="https://www.ultrawidewallpapers.net/wallpapers/329/highres/aishot-${RANDOM_NUMBER}.jpg"
+
+# Path to save the downloaded image
+TEMP_WALLPAPER="$TEMP_DIR/aishot-${RANDOM_NUMBER}.jpg"
+
+send_timeleft_notification() {
+  local timeleft=$1
+  dunstify -r $notify_id "Initializing wait... $timeleft seconds"
+}
+
+TOTAL_SIZE=$(curl -sI "$IMAGE_URL" | grep -i Content-Length | awk '{print $2}' | tr -d '\r')
+
+if [[ -z "$TOTAL_SIZE" ]]; then
+  echo "Could not get total file size, downloading without ETA."
+  curl -o "$TEMP_WALLPAPER" "$IMAGE_URL"
+else
+  START_TIME=$(date +%s)
+  curl -o "$TEMP_WALLPAPER" "$IMAGE_URL" &
+  CURL_PID=$!
+
+  while kill -0 $CURL_PID 2>/dev/null; do
+    if [[ -f "$TEMP_WALLPAPER" ]]; then
+      CURRENT_SIZE=$(stat -c%s "$TEMP_WALLPAPER")
+      ELAPSED=$(( $(date +%s) - START_TIME ))
+      if (( ELAPSED > 0 )); then
+        SPEED=$(( CURRENT_SIZE / ELAPSED ))        # bytes per second
+        REMAINING=$(( TOTAL_SIZE - CURRENT_SIZE ))
+        if (( SPEED > 0 )); then
+          TIMELEFT=$(( REMAINING / SPEED ))
+        else
+          TIMELEFT="calculating..."
+        fi
+      else
+        TIMELEFT="calculating..."
+      fi
+      send_timeleft_notification "$TIMELEFT"
+    fi
+    sleep 1
+  done
+fi
+
+# Now proceed with the rest of your original script
+
+# Set the downloaded image as the wallpaper
+feh --bg-fill "$TEMP_WALLPAPER"
+
+# Apply the wallpaper's colors using wal
+wal -i "$TEMP_WALLPAPER" && ~/.local/bin/update-dunst-colors.sh
+
+# Reload dunst
+pkill -SIGHUP dunst
+
+# Update polybar colors
+# ~/.local/bin/update-polybar-colors.sh
+
+# Update keyboard colors
+~/.local/bin/keyboard-color
+
+# Lock screen with the new wallpaper
+~/.local/bin/lockscreen
+

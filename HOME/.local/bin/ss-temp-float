@@ -1,0 +1,21 @@
+#!/bin/bash
+
+# Directory to save the screenshot (using /tmp for temporary storage)
+custom_folder="/tmp"
+
+# Get the current date and time
+current_datetime=$(date "+%I_%M_%S_%p_%m-%d-%y")
+file_path="$custom_folder/$current_datetime.png"
+
+# Capture the screenshot (select area)
+scrot --select --line mode=edge "$file_path"
+
+# Copy the screenshot to the clipboard
+xclip -selection clipboard -t image/png -i "$file_path"
+
+# Open the screenshot immediately in feh
+# The '&' lets the script finish while feh stays open
+feh "$file_path" &
+
+# Notify the user
+notify-send "Screenshot Captured" "Opened and saved to /tmp"
